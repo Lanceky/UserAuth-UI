@@ -4,9 +4,9 @@ A modern full-stack application with **React (Vite)** for the frontend and **Nod
 
 ## 🚀 Features
 
-- **Frontend**: React (Vite) with functional login/signup UI.
+- **Frontend**: React (Vite) with functional login/signup User Interface.
 - **Backend**: Node.js + Express for API logic.
 - **Authentication**: JWT (JSON Web Tokens) for secure user sessions.
 - **Database**: MongoDB (or PostgreSQL) for user data storage.
-- **Real-time**: Optional Socket.io support 
+- **Real-time**: Optional Socket.io support
 
