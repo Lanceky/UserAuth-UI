@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {z} from 'zod';
 
 const Login = () => {
   const [password, setPassword] = useState('');
@@ -8,6 +9,11 @@ const Login = () => {
     console.log({email, password})//to be replaced by api
 
     //login schema validation
+    const loginSchema = z.object({
+      email: z.string().email('Invalid Email'),
+      password: z.string().min(4, 'Password must be at least 4 characters')
+    })
+    type LoginFormData = z.infer<typeof loginSchema>
     
   }
   return (
