@@ -6,6 +6,9 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent)=>{
     e.preventDefault();
     console.log({email, password})//to be replaced by api
+
+    //login schema validation
+    
   }
   return (
     <form onSubmit={handleSubmit}>
