@@ -1,7 +1,12 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios from 'axios'; 
 import { useState } from 'react';
+
+
+interface LoginResponse {
+  token: string;
+}
 
 const Login = () => {
   const [apiError, setApiError] = useState('');
@@ -13,22 +18,17 @@ const Login = () => {
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid email')
-        .required('Required'),
-      password: Yup.string()
-        .min(6, 'Too short')
-        .required('Required'),
+      email: Yup.string().email('Invalid email').required('Required'),
+      password: Yup.string().min(6, 'Too short').required('Required'),
     }),
     onSubmit: async (values) => {
       setApiError('');
       setIsLoading(true);
       try {
-        const response = await axios.post<{ token: string }>(
-          'http://localhost:3000/auth/login',
-          values
-        );
-        console.log('Token:', response.data.token);
+        
+        const response = await axios.post<LoginResponse>('http://localhost:3000/auth/login', values);
+        
+        console.log('Token:', response.data.token); 
       } catch (err) {
         setApiError('Login failed');
       } finally {
@@ -47,9 +47,7 @@ const Login = () => {
         onBlur={formik.handleBlur}
         placeholder="Email"
       />
-      {formik.errors.email && formik.touched.email && (
-        <span>{formik.errors.email}</span>
-      )}
+      {formik.errors.email && formik.touched.email && <span>{formik.errors.email}</span>}
 
       <input
         type="password"
@@ -59,9 +57,7 @@ const Login = () => {
         onBlur={formik.handleBlur}
         placeholder="Password"
       />
-      {formik.errors.password && formik.touched.password && (
-        <span>{formik.errors.password}</span>
-      )}
+      {formik.errors.password && formik.touched.password && <span>{formik.errors.password}</span>}
 
       {apiError && <span>{apiError}</span>}
       <button type="submit" disabled={isLoading}>
