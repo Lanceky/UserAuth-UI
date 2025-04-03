@@ -1,43 +1,45 @@
-import React, {useState} from 'react'
-import {z} from 'zod';
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Login = () => {
-  const [password, setPassword] = useState('');
-  const [email, setEmail]  = useState('')
-  const handleSubmit = (e: React.FormEvent)=>{
-    e.preventDefault();
-    console.log({email, password})//to be replaced by api
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      password: Yup.string().min(6, 'Password too short').required('Password is required'),
+    }),
+    onSubmit: (values) => {
+      console.log(values); // Validated form data
+    },
+  });
 
-    //login schema validation
-    const loginSchema = z.object({
-      email: z.string().email('Invalid Email'),
-      password: z.string().min(4, 'Password must be at least 4 characters')
-    })
-    type LoginFormData = z.infer<typeof loginSchema>
-    
-  }
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-      type="email" 
-      value={email}
-      onChange={(e)=>{setEmail(e.target.value)}}
-      placeholder='Email'
+    <form onSubmit={formik.handleSubmit}>
+      <input
+        type="email"
+        name="email"
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        placeholder="Email"
       />
+      {formik.errors.email && formik.touched.email && <span>{formik.errors.email}</span>}
 
-      <input 
-      type="password"
-      value={password}
-      onChange={(e)=>{setPassword(e.target.value)}}
-      placeholder='Password'
-       />
+      <input
+        type="password"
+        name="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        placeholder="Password"
+      />
+      {formik.errors.password && formik.touched.password && <span>{formik.errors.password}</span>}
 
-      <button type='submit'>
-        Submit
-      </button>
+      <button type="submit">Login</button>
     </form>
-    
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
