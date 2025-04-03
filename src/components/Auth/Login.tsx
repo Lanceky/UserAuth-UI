@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'; 
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 
 interface LoginResponse {
   token: string;
@@ -11,6 +11,7 @@ interface LoginResponse {
 const Login = () => {
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigate hook
 
   const formik = useFormik({
     initialValues: {
@@ -25,10 +26,11 @@ const Login = () => {
       setApiError('');
       setIsLoading(true);
       try {
-        
         const response = await axios.post<LoginResponse>('http://localhost:3000/auth/login', values);
-        
-        console.log('Token:', response.data.token); 
+
+        // Store the token in localStorage and navigate to the dashboard
+        localStorage.setItem('token', response.data.token); 
+        navigate('/dashboard'); // Redirect to the dashboard page
       } catch (err) {
         setApiError('Login failed');
       } finally {
