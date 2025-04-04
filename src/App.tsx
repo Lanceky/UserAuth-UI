@@ -1,18 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AuthForm from './components/Auth/AuthForm'; // Assuming you have this component
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
 
 const App = () => {
   return (
-    // Wrap everything in BrowserRouter for routing to work
     <Router>
       <Routes>
-        {/* Define your routes */}
-        <Route path="/" element={<AuthForm />} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
-        {/* Add more routes as needed */}
+        <Route path="/" element={<Navigate to="/signup" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
